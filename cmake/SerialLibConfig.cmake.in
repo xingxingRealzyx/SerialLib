@@ -1,0 +1,33 @@
+@PACKAGE_INIT@
+
+# SerialLib CMake Configuration File
+# This file allows other CMake projects to find and use SerialLib
+
+include(CMakeFindDependencyMacro)
+
+# Check if the targets are already defined (avoid redefinition)
+if(NOT TARGET SerialLib::serial_static)
+    # Include the exported targets
+    include("${CMAKE_CURRENT_LIST_DIR}/SerialLibTargets.cmake")
+endif()
+
+# Provide variables for backward compatibility
+set(SerialLib_LIBRARIES SerialLib::serial_static)
+set(SerialLib_INCLUDE_DIRS "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
+set(SerialLib_VERSION "@PROJECT_VERSION@")
+
+# Mark variables as advanced
+mark_as_advanced(SerialLib_LIBRARIES SerialLib_INCLUDE_DIRS)
+
+# Verify that all required components are available
+check_required_components(SerialLib)
+
+# Set found flag
+set(SerialLib_FOUND TRUE)
+
+# Optional: Print status message
+if(NOT SerialLib_FIND_QUIETLY)
+    message(STATUS "Found SerialLib: ${SerialLib_VERSION}")
+    message(STATUS "SerialLib libraries: ${SerialLib_LIBRARIES}")
+    message(STATUS "SerialLib include dirs: ${SerialLib_INCLUDE_DIRS}")
+endif() 
